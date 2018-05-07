@@ -24,7 +24,7 @@ func checkSlice(actual, tobe []string, t *testing.T) {
 		tb := tobe[i]
 
 		if a != tb {
-			t.Fatalf("Mismatch result: actual: %q, tobe: %q", a, tb)
+			t.Fatalf("Mismatch result:\n    actual: %+v\n    tobe: %+v", actual, tobe)
 		}
 	}
 }
