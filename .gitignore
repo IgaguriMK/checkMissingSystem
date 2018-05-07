@@ -1,0 +1,5 @@
+*.exe
+checkMissing
+
+*.json
+*.txt
