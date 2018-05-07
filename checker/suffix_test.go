@@ -16,6 +16,7 @@ func TestSuffixes_Ok(t *testing.T) {
 	}
 
 	checkSlice(
+		t,
 		actual,
 		[]string{
 			"",
@@ -23,7 +24,6 @@ func TestSuffixes_Ok(t *testing.T) {
 			"2",
 			"2 a",
 		},
-		t,
 	)
 }
 

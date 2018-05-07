@@ -7,7 +7,7 @@ import (
 
 //// Util ////
 
-func checkSlice(actual, tobe []string, t *testing.T) {
+func checkSlice(t *testing.T, actual, tobe []string) {
 	sort.Strings(actual)
 	sort.Strings(tobe)
 

@@ -15,7 +15,7 @@ func TestBuildTree_Single(t *testing.T) {
 		actual = append(actual, names...)
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestBuildTree_Simple(t *testing.T) {
@@ -32,7 +32,7 @@ func TestBuildTree_Simple(t *testing.T) {
 		actual = append(actual, names...)
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestBuildTree_SimpleTree(t *testing.T) {
@@ -50,7 +50,7 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 	}
 
 	actual := trees[0].GetAll("Foo")
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 
 	// Level 2
 	trees = trees[0].Childs
@@ -61,7 +61,7 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 	}
 
 	actual = trees[0].GetAll("Foo A")
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 
 	// Level 3
 	trees = trees[0].Childs
@@ -72,7 +72,7 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 	}
 
 	actual = trees[0].GetAll("Foo A 1")
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 
 	// Level 4
 	trees = trees[0].Childs

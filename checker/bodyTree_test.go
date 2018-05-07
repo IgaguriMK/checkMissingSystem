@@ -15,7 +15,7 @@ func TestGetAll_Single_NoName(t *testing.T) {
 		"Foo",
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestGetAll_Single_HasName(t *testing.T) {
@@ -29,7 +29,7 @@ func TestGetAll_Single_HasName(t *testing.T) {
 		"Foo A",
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestGetAll_OneChild_NoName(t *testing.T) {
@@ -49,7 +49,7 @@ func TestGetAll_OneChild_NoName(t *testing.T) {
 		"Foo 1",
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestGetAll_OneChild_HasName(t *testing.T) {
@@ -69,7 +69,7 @@ func TestGetAll_OneChild_HasName(t *testing.T) {
 		"Foo A 1",
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
 
 func TestGetAll_LongTree(t *testing.T) {
@@ -101,5 +101,5 @@ func TestGetAll_LongTree(t *testing.T) {
 		"Foo A 1 a a",
 	}
 
-	checkSlice(actual, tobe, t)
+	checkSlice(t, actual, tobe)
 }
