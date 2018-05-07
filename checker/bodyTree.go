@@ -5,21 +5,21 @@ type BodyTree struct {
 	Childs []BodyTree
 }
 
-func (mt BodyTree) GetAll(prefix string) []string {
-	return mt.getAllInternal(make([]string, 0), prefix)
+func (mt BodyTree) GetAll() []string {
+	return mt.getAllInternal(make([]string, 0), "")
 }
 
 func (mt BodyTree) getAllInternal(res []string, prefix string) []string {
-	fullname := prefix
+	name := mt.Name
 
-	if mt.Name != "" {
-		fullname = fullname + " " + mt.Name
+	if prefix != "" {
+		name = prefix + " " + name
 	}
 
-	res = append(res, fullname)
+	res = append(res, name)
 
 	for _, ch := range mt.Childs {
-		res = ch.getAllInternal(res, fullname)
+		res = ch.getAllInternal(res, name)
 	}
 
 	return res

@@ -11,11 +11,16 @@ func TestBuildTree_Single(t *testing.T) {
 	actual := make([]string, 0)
 
 	for _, tree := range trees {
-		names := tree.GetAll("Foo")
+		names := tree.GetAll()
 		actual = append(actual, names...)
 	}
-
-	checkSlice(t, actual, tobe)
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"A",
+		},
+	)
 }
 
 func TestBuildTree_Simple(t *testing.T) {
@@ -28,11 +33,18 @@ func TestBuildTree_Simple(t *testing.T) {
 	actual := make([]string, 0)
 
 	for _, tree := range trees {
-		names := tree.GetAll("Foo")
+		names := tree.GetAll()
 		actual = append(actual, names...)
 	}
 
-	checkSlice(t, actual, tobe)
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"A",
+			"B",
+		},
+	)
 }
 
 func TestBuildTree_SimpleTree(t *testing.T) {
@@ -49,8 +61,16 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 		t.Fatalf("Unexpected trees size: %d", len(trees))
 	}
 
-	actual := trees[0].GetAll("Foo")
-	checkSlice(t, actual, tobe)
+	actual := trees[0].GetAll()
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"A",
+			"A 1",
+			"A 1 a",
+		},
+	)
 
 	// Level 2
 	trees = trees[0].Childs
@@ -60,8 +80,15 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 		t.Fatalf("Unexpected trees size: %d", len(trees))
 	}
 
-	actual = trees[0].GetAll("Foo A")
-	checkSlice(t, actual, tobe)
+	actual = trees[0].GetAll()
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"1",
+			"1 a",
+		},
+	)
 
 	// Level 3
 	trees = trees[0].Childs
@@ -71,8 +98,14 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 		t.Fatalf("Unexpected trees size: %d", len(trees))
 	}
 
-	actual = trees[0].GetAll("Foo A 1")
-	checkSlice(t, actual, tobe)
+	actual = trees[0].GetAll()
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"a",
+		},
+	)
 
 	// Level 4
 	trees = trees[0].Childs

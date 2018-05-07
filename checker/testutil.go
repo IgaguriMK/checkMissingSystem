@@ -2,6 +2,7 @@ package checker
 
 import (
 	"sort"
+	"strings"
 	"testing"
 )
 
@@ -24,7 +25,11 @@ func checkSlice(t *testing.T, actual, tobe []string) {
 		tb := tobe[i]
 
 		if a != tb {
-			t.Fatalf("Mismatch result:\n    actual: %+v\n    tobe: %+v", actual, tobe)
+			t.Fatalf("Mismatch result:\n    actual: %+v\n    tobe: %+v", quoteSlice(actual), quoteSlice(tobe))
 		}
 	}
+}
+
+func quoteSlice(strs []string) string {
+	return "[\"" + strings.Join(strs, "\", \"") + "\"]"
 }

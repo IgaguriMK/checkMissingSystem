@@ -9,10 +9,10 @@ func TestGetAll_Single_NoName(t *testing.T) {
 		Name: "",
 	}
 
-	actual := tree.GetAll("Foo")
+	actual := tree.GetAll()
 
 	tobe := []string{
-		"Foo",
+		"",
 	}
 
 	checkSlice(t, actual, tobe)
@@ -23,10 +23,10 @@ func TestGetAll_Single_HasName(t *testing.T) {
 		Name: "A",
 	}
 
-	actual := tree.GetAll("Foo")
+	actual := tree.GetAll()
 
 	tobe := []string{
-		"Foo A",
+		"A",
 	}
 
 	checkSlice(t, actual, tobe)
@@ -42,11 +42,11 @@ func TestGetAll_OneChild_NoName(t *testing.T) {
 		},
 	}
 
-	actual := tree.GetAll("Foo")
+	actual := tree.GetAll()
 
 	tobe := []string{
-		"Foo",
-		"Foo 1",
+		"",
+		"1",
 	}
 
 	checkSlice(t, actual, tobe)
@@ -62,11 +62,11 @@ func TestGetAll_OneChild_HasName(t *testing.T) {
 		},
 	}
 
-	actual := tree.GetAll("Foo")
+	actual := tree.GetAll()
 
 	tobe := []string{
-		"Foo A",
-		"Foo A 1",
+		"A",
+		"A 1",
 	}
 
 	checkSlice(t, actual, tobe)
@@ -92,13 +92,13 @@ func TestGetAll_LongTree(t *testing.T) {
 		},
 	}
 
-	actual := tree.GetAll("Foo")
+	actual := tree.GetAll()
 
 	tobe := []string{
-		"Foo A",
-		"Foo A 1",
-		"Foo A 1 a",
-		"Foo A 1 a a",
+		"A",
+		"A 1",
+		"A 1 a",
+		"A 1 a a",
 	}
 
 	checkSlice(t, actual, tobe)
