@@ -1,15 +1,15 @@
 package checker
 
-type MaxTree struct {
+type BodyTree struct {
 	Name   string
-	Childs []MaxTree
+	Childs []BodyTree
 }
 
-func (mt MaxTree) GetAll(prefix string) []string {
+func (mt BodyTree) GetAll(prefix string) []string {
 	return mt.getAllInternal(make([]string, 0), prefix)
 }
 
-func (mt MaxTree) getAllInternal(res []string, prefix string) []string {
+func (mt BodyTree) getAllInternal(res []string, prefix string) []string {
 	fullname := prefix
 
 	if mt.Name != "" {
