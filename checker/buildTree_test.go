@@ -113,3 +113,29 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 		t.Fatalf("Unexpected Childs exists: %+v", trees)
 	}
 }
+
+func TestBuildTree_Twin(t *testing.T) {
+	tobe := []string{
+		"Foo A",
+		"Foo B",
+		"Foo AB 1",
+	}
+
+	trees := BuildTree("Foo", tobe)
+	actual := make([]string, 0)
+
+	for _, tree := range trees {
+		names := tree.GetAll()
+		actual = append(actual, names...)
+	}
+
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"A",
+			"B",
+			"AB 1",
+		},
+	)
+}

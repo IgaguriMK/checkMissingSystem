@@ -4,6 +4,8 @@ import (
 	"testing"
 )
 
+//// GetAll ////
+
 func TestGetAll_Single_NoName(t *testing.T) {
 	tree := BodyTree{
 		Name: "",
@@ -103,3 +105,33 @@ func TestGetAll_LongTree(t *testing.T) {
 
 	checkSlice(t, actual, tobe)
 }
+
+//// Index ////
+
+func TestIndex(t *testing.T) {
+	tt := []struct {
+		Name   string
+		Prefix string
+		Index  int
+	}{
+		{"", "", 0},
+		{"1", "", 1},
+		{"10", "", 10},
+		{"A", "", 1},
+		{"a", "", 1},
+		{"AB 1", "AB ", 1},
+	}
+
+	for j, c := range tt {
+		prefix, index := BodyTree{Name: c.Name}.Index()
+
+		if prefix != c.Prefix {
+			t.Errorf("[%d] Mismatch Prefix: actual %q, tobe %q", j, prefix, c.Prefix)
+		}
+		if index != c.Index {
+			t.Errorf("[%d] Mismatch index: actual %d, tobe %d", j, index, c.Index)
+		}
+	}
+}
+
+//// Mismatch ////
