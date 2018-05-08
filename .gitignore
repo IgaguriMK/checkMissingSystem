@@ -3,3 +3,4 @@ checkMissing
 
 *.json
 *.txt
+!bubblebodies.txt
