@@ -38,6 +38,10 @@ func (bt BodyTree) Missing() bool {
 	for _, c := range bt.Childs {
 		pf, _ := c.Index()
 
+		if len(pf) == 2 { // like "A "
+			return true
+		}
+
 		if _, ok := indexMap[pf]; !ok {
 			indexMap[pf] = make([]int, 0)
 		}
@@ -60,6 +64,15 @@ func (bt BodyTree) Missing() bool {
 	}
 
 	return false
+}
+
+func CheckMissing(bts []BodyTree) bool {
+	tempBt := BodyTree{
+		Name:   "SYSTEM",
+		Childs: bts,
+	}
+
+	return tempBt.Missing()
 }
 
 func (bt BodyTree) Index() (string, int) {
@@ -164,4 +177,22 @@ func (t Tier) IndexName(index int) string {
 	}
 
 	panic("Should not reach")
+}
+
+func (bt BodyTree) String() string {
+	if len(bt.Childs) == 0 {
+		return fmt.Sprintf("%q{}", bt.Name)
+	}
+
+	cs := make([]string, 0, len(bt.Childs))
+	for _, c := range bt.Childs {
+		s := c.String()
+		cs = append(cs, s)
+	}
+
+	return fmt.Sprintf(
+		"%q{ %s }",
+		bt.Name,
+		strings.Join(cs, ", "),
+	)
 }

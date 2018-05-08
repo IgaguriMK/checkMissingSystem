@@ -227,3 +227,136 @@ func TestMissing_Simple_Missing(t *testing.T) {
 		t.Errorf("Should detect missing: %+v\n    %+v", tree, trees)
 	}
 }
+
+func TestMissing_Simple_CompleteSatellite(t *testing.T) {
+	bodies := []string{
+		"",
+		"1",
+		"2",
+		"3",
+		"3 a",
+		"3 b",
+		"3 c",
+	}
+
+	trees := BuildTree(bodies)
+	tree := trees[0]
+	actual := tree.Missing()
+
+	if actual != false {
+		t.Errorf("Should not detect missing: %+v\n    %+v", tree, trees)
+	}
+}
+
+func TestMissing_Simple_MissingSatellite(t *testing.T) {
+	bodies := []string{
+		"",
+		"1",
+		"2",
+		"3",
+		"3 a",
+		"3 b",
+		"3 c",
+	}
+
+	trees := BuildTree(bodies)
+	tree := trees[0]
+	actual := tree.Missing()
+
+	if actual != false {
+		t.Errorf("Should detect missing: %+v\n    %+v", tree, trees)
+	}
+}
+
+func TestMissing_Long(t *testing.T) {
+	bodies := []string{
+		"",
+		"1",
+		"10",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"7",
+		"8",
+		"9",
+	}
+
+	trees := BuildTree(bodies)
+	tree := trees[0]
+	actual := tree.Missing()
+
+	if actual != false {
+		t.Errorf("Should not detect missing: %+v\n    %+v", tree, trees)
+	}
+}
+
+//// CheckMissing ///
+
+func TestCheckMissing_Complete(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"A 2",
+		"A 3",
+		"A 4",
+		"B",
+		"B 1",
+		"B 1 a",
+		"B 1 b",
+		"B 1 c",
+		"B 1 c a",
+		"B 2",
+		"B 3",
+		"AB 1",
+		"AB 1 a",
+		"AB 2",
+		"AB 2 a",
+		"AB 2 b",
+		"AB 2 c",
+		"AB 2 d",
+		"AB 2 d a",
+		"AB 3",
+	}
+
+	trees := BuildTree(src)
+	actual := CheckMissing(trees)
+
+	if actual != false {
+		t.Errorf("Should not detect missing: %+v", trees)
+	}
+}
+
+func TestCheckMissing_MissingStar(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"A 2",
+		"A 3",
+		"A 4",
+		"B 1",
+		"B 1 a",
+		"B 1 b",
+		"B 1 c",
+		"B 1 c a",
+		"B 2",
+		"B 3",
+		"AB 1",
+		"AB 1 a",
+		"AB 2",
+		"AB 2 a",
+		"AB 2 b",
+		"AB 2 c",
+		"AB 2 d",
+		"AB 2 d a",
+		"AB 3",
+	}
+
+	trees := BuildTree(src)
+	actual := CheckMissing(trees)
+
+	if actual != true {
+		t.Errorf("Should detect missing: %+v", trees)
+	}
+}
