@@ -134,12 +134,103 @@ func TestIndex(t *testing.T) {
 	}
 }
 
-//// Missing ////
+//// GetTier ////
 
-//func TestMissing_None(t *testing.T) {
-//	bodies := []string{
-//		""
-//	}
-//
-//	trees := BuildTree("", sr)
-//}
+func TestGetTier(t *testing.T) {
+	tt := []struct {
+		Name string
+		Tier Tier
+	}{
+		{"", SingleStar},
+		{"A", BinaryStar},
+		{"B", BinaryStar},
+		{"1", Planet},
+		{"13", Planet},
+		{"a", Satellite},
+	}
+
+	for j, c := range tt {
+		tier := BodyTree{Name: c.Name}.GetTier()
+
+		if tier != c.Tier {
+			t.Errorf("[%d] Mismatch tier: actual %v, tobe %v", j, tier, c.Tier)
+		}
+	}
+}
+
+//// Tier ////
+
+func TestIndexName(t *testing.T) {
+	tt := []struct {
+		Index int
+		Tier  Tier
+		ToBe  string
+	}{
+		{0, SingleStar, ""},
+		{1, BinaryStar, "A"},
+		{4, BinaryStar, "D"},
+		{1, Planet, "1"},
+		{1, Satellite, "a"},
+	}
+
+	for j, c := range tt {
+		actual := c.Tier.IndexName(c.Index)
+
+		if actual != c.ToBe {
+			t.Errorf("[%d] Mismatch IndexName: actual %q, tobe %q", j, actual, c.ToBe)
+		}
+	}
+}
+
+//// Missing ////
+/*
+
+func TestMissing_None(t *testing.T) {
+	bodies := []string{
+		"",
+	}
+
+	tree := BuildTree(bodies)[0]
+	actual := tree.Missing()
+
+	if len(actual) != 0 {
+		t.Errorf("Length of Missing() should be 0. actual: %v", actual)
+	}
+}
+
+func TestMissing_Simple_Zero(t *testing.T) {
+	bodies := []string{
+		"",
+		"1",
+		"2",
+	}
+
+	tree := BuildTree(bodies)[0]
+	actual := tree.Missing()
+
+	if len(actual) != 0 {
+		t.Errorf("Length of Missing() should be 0. actual: %v", actual)
+	}
+}
+
+func TestMissing_Simple_Missing(t *testing.T) {
+	bodies := []string{
+		"",
+		"1",
+		"3",
+	}
+
+	tree := BuildTree(bodies)[0]
+	actual := tree.Missing()
+
+	if len(actual) != 1 {
+		t.Errorf("Length of Missing() should be 1. actual: %v", actual)
+	}
+
+	missing := actual[0]
+
+	if actual != "2" {
+		t.Errorf("Mismatch: actual %q, tobe %q", missing, "2")
+	}
+}
+*/

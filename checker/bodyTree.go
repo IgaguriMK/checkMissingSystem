@@ -47,6 +47,10 @@ func (bt BodyTree) Index() (string, int) {
 	}
 
 	if i, err := strconv.Atoi(indexStr); err == nil {
+		if i <= 0 {
+			panic("Negative indexStr")
+		}
+
 		return prefix, i
 	}
 
@@ -59,4 +63,74 @@ func (bt BodyTree) Index() (string, int) {
 	}
 
 	panic(fmt.Sprintf("Suould not reach: BodyTree#Index(), bt = %+v", bt))
+}
+
+func (bt BodyTree) GetTier() Tier {
+	if bt.Name == "" {
+		return SingleStar
+	}
+
+	ns := strings.Split(bt.Name, " ")
+	indexStr := ns[len(ns)-1]
+
+	if i, err := strconv.Atoi(indexStr); err == nil {
+		if i <= 0 {
+			panic("Negative indexStr")
+		}
+
+		return Planet
+	}
+
+	r := indexStr[0]
+	switch {
+	case 'A' <= r && r <= 'Z':
+		return BinaryStar
+	case 'a' <= r && r <= 'z':
+		return Satellite
+	}
+
+	panic(fmt.Sprintf("Invalid index name: %q in %q", indexStr, bt.Name))
+}
+
+type Tier int
+
+const (
+	SingleStar Tier = iota
+	BinaryStar
+	Planet
+	Satellite
+)
+
+func (t Tier) String() string {
+	switch t {
+	case SingleStar:
+		return "SingleStar"
+	case BinaryStar:
+		return "BinaryStar"
+	case Planet:
+		return "Planet"
+	case Satellite:
+		return "Satellite"
+	}
+
+	panic(fmt.Sprintf("Illegal Tier value %d", int(t)))
+}
+
+func (t Tier) IndexName(index int) string {
+	if t == SingleStar {
+		return ""
+	}
+
+	switch t {
+	case BinaryStar:
+		r := 'A' + rune(index) - 1
+		return string([]rune{r})
+	case Planet:
+		return strconv.Itoa(index)
+	case Satellite:
+		r := 'a' + rune(index) - 1
+		return string([]rune{r})
+	}
+
+	panic("Should not reach")
 }
