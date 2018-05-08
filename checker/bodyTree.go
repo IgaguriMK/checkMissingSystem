@@ -13,7 +13,19 @@ type BodyTree struct {
 }
 
 func (bt BodyTree) GetAll() []string {
-	return bt.getAllInternal(make([]string, 0), "")
+	res := make([]string, 0)
+	return bt.getAllInternal(res, "")
+
+}
+
+func GetAllTrees(bts []BodyTree) []string {
+	res := make([]string, 0)
+
+	for _, bt := range bts {
+		res = append(res, bt.GetAll()...)
+	}
+
+	return res
 }
 
 func (bt BodyTree) getAllInternal(res []string, prefix string) []string {
