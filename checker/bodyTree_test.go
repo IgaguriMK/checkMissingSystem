@@ -114,7 +114,7 @@ func TestIndex(t *testing.T) {
 		Prefix string
 		Index  int
 	}{
-		{"", "", 0},
+		{"", "", 1},
 		{"1", "", 1},
 		{"10", "", 10},
 		{"A", "", 1},
@@ -166,7 +166,7 @@ func TestIndexName(t *testing.T) {
 		Tier  Tier
 		ToBe  string
 	}{
-		{0, SingleStar, ""},
+		{1, SingleStar, ""},
 		{1, BinaryStar, "A"},
 		{4, BinaryStar, "D"},
 		{1, Planet, "1"},

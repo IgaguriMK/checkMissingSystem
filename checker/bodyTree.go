@@ -2,9 +2,14 @@ package checker
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strconv"
 	"strings"
+)
+
+const (
+	DummyName = "SYSTEM"
 )
 
 type BodyTree struct {
@@ -48,7 +53,12 @@ func (bt BodyTree) Missing() bool {
 	indexMap := make(map[string][]int)
 
 	for _, c := range bt.Childs {
-		pf, _ := c.Index()
+		pf, i := c.Index()
+
+		if i < 0 {
+			log.Printf("Index parse error: %q\n", bt.Name)
+			return false
+		}
 
 		if len(pf) == 2 { // like "A "
 			return true
@@ -93,7 +103,7 @@ func (bt BodyTree) Missing() bool {
 
 func CheckMissing(bts []BodyTree) bool {
 	tempBt := BodyTree{
-		Name:   "SYSTEM",
+		Name:   DummyName,
 		Childs: bts,
 	}
 
@@ -103,8 +113,12 @@ func CheckMissing(bts []BodyTree) bool {
 func (bt BodyTree) Index() (string, int) {
 	n := bt.Name
 
-	if n == "" {
+	if n == DummyName {
 		return "", 0
+	}
+
+	if n == "" {
+		return "", 1
 	}
 
 	ns := strings.Split(n, " ")
@@ -131,7 +145,7 @@ func (bt BodyTree) Index() (string, int) {
 		return prefix, 1 + int(r-'a')
 	}
 
-	panic(fmt.Sprintf("Suould not reach: BodyTree#Index(), bt = %+v", bt))
+	return n, -1
 }
 
 func (bt BodyTree) GetTier() Tier {
