@@ -3,4 +3,6 @@ checkMissing
 
 *.json
 *.txt
+*.zip
+*.tar.gz
 !bubblebodies.txt
