@@ -2,12 +2,33 @@ package checker
 
 import "testing"
 
-func TestBuildTree_Single(t *testing.T) {
+func TestBuildTree_NoName(t *testing.T) {
 	tobe := []string{
-		"Foo A",
+		"",
 	}
 
-	trees := BuildTree("Foo", tobe)
+	trees := BuildTree(tobe)
+	actual := make([]string, 0)
+
+	for _, tree := range trees {
+		names := tree.GetAll()
+		actual = append(actual, names...)
+	}
+	checkSlice(
+		t,
+		actual,
+		[]string{
+			"",
+		},
+	)
+}
+
+func TestBuildTree_Single(t *testing.T) {
+	tobe := []string{
+		"A",
+	}
+
+	trees := BuildTree(tobe)
 	actual := make([]string, 0)
 
 	for _, tree := range trees {
@@ -25,11 +46,11 @@ func TestBuildTree_Single(t *testing.T) {
 
 func TestBuildTree_Simple(t *testing.T) {
 	tobe := []string{
-		"Foo A",
-		"Foo B",
+		"A",
+		"B",
 	}
 
-	trees := BuildTree("Foo", tobe)
+	trees := BuildTree(tobe)
 	actual := make([]string, 0)
 
 	for _, tree := range trees {
@@ -49,12 +70,12 @@ func TestBuildTree_Simple(t *testing.T) {
 
 func TestBuildTree_SimpleTree(t *testing.T) {
 	tobe := []string{
-		"Foo A",
-		"Foo A 1",
-		"Foo A 1 a",
+		"A",
+		"A 1",
+		"A 1 a",
 	}
 
-	trees := BuildTree("Foo", tobe)
+	trees := BuildTree(tobe)
 
 	// Level 1
 	if len(trees) != 1 {
@@ -116,12 +137,12 @@ func TestBuildTree_SimpleTree(t *testing.T) {
 
 func TestBuildTree_Twin(t *testing.T) {
 	tobe := []string{
-		"Foo A",
-		"Foo B",
-		"Foo AB 1",
+		"A",
+		"B",
+		"AB 1",
 	}
 
-	trees := BuildTree("Foo", tobe)
+	trees := BuildTree(tobe)
 	actual := make([]string, 0)
 
 	for _, tree := range trees {

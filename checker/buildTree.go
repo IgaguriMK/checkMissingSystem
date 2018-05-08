@@ -2,7 +2,7 @@ package checker
 
 import "strings"
 
-func BuildTree(systemName string, bodyNames []string) []BodyTree {
+func BuildTree(bodyNames []string) []BodyTree {
 	if len(bodyNames) == 0 {
 		return nil // For dummy
 	}
@@ -13,17 +13,14 @@ func BuildTree(systemName string, bodyNames []string) []BodyTree {
 		selected := bodyNames[0]
 		bodyNames = bodyNames[1:]
 
-		name := strings.TrimPrefix(selected, systemName)
-		name = strings.TrimLeft(name, " ")
-
 		var childNames []string
 		childNames, bodyNames = filterByPrefix(bodyNames, selected+" ")
-		childs := BuildTree(selected, childNames)
+		childs := BuildTree(childNames)
 
 		res = append(
 			res,
 			BodyTree{
-				Name:   name,
+				Name:   selected,
 				Childs: childs,
 			},
 		)
@@ -38,6 +35,7 @@ func filterByPrefix(strs []string, prefix string) ([]string, []string) {
 
 	for _, s := range strs {
 		if strings.HasPrefix(s, prefix) {
+			s = strings.TrimPrefix(s, prefix)
 			ts = append(ts, s)
 		} else {
 			fs = append(fs, s)

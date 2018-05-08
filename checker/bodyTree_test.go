@@ -134,4 +134,12 @@ func TestIndex(t *testing.T) {
 	}
 }
 
-//// Mismatch ////
+//// Missing ////
+
+//func TestMissing_None(t *testing.T) {
+//	bodies := []string{
+//		""
+//	}
+//
+//	trees := BuildTree("", sr)
+//}
