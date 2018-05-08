@@ -360,3 +360,103 @@ func TestCheckMissing_MissingStar(t *testing.T) {
 		t.Errorf("Should detect missing: %+v", trees)
 	}
 }
+
+func TestCheckMissing_MissingPlanet(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"A 3",
+		"A 4",
+		"B",
+		"B 1",
+		"B 1 a",
+		"B 1 b",
+		"B 1 c",
+		"B 1 c a",
+		"B 2",
+		"B 3",
+		"AB 1",
+		"AB 1 a",
+		"AB 2",
+		"AB 2 a",
+		"AB 2 b",
+		"AB 2 c",
+		"AB 2 d",
+		"AB 2 d a",
+		"AB 3",
+	}
+
+	trees := BuildTree(src)
+	actual := CheckMissing(trees)
+
+	if actual != true {
+		t.Errorf("Should detect missing: %+v", trees)
+	}
+}
+
+func TestCheckMissing_MissingSatellite(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"A 2",
+		"A 3",
+		"A 4",
+		"B",
+		"B 1",
+		"B 1 a",
+		"B 1 c",
+		"B 1 c a",
+		"B 2",
+		"B 3",
+		"AB 1",
+		"AB 1 a",
+		"AB 2",
+		"AB 2 a",
+		"AB 2 b",
+		"AB 2 c",
+		"AB 2 d",
+		"AB 2 d a",
+		"AB 3",
+	}
+
+	trees := BuildTree(src)
+	actual := CheckMissing(trees)
+
+	if actual != true {
+		t.Errorf("Should detect missing: %+v", trees)
+	}
+}
+
+func TestCheckMissing_MissingSatellite2(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"A 2",
+		"A 3",
+		"A 4",
+		"B",
+		"B 1",
+		"B 1 a",
+		"B 1 b",
+		"B 1 c",
+		"B 1 c b",
+		"B 2",
+		"B 3",
+		"AB 1",
+		"AB 1 a",
+		"AB 2",
+		"AB 2 a",
+		"AB 2 b",
+		"AB 2 c",
+		"AB 2 d",
+		"AB 2 d a",
+		"AB 3",
+	}
+
+	trees := BuildTree(src)
+	actual := CheckMissing(trees)
+
+	if actual != true {
+		t.Errorf("Should detect missing: %+v", trees)
+	}
+}

@@ -75,6 +75,12 @@ func (bt BodyTree) Missing() bool {
 		}
 	}
 
+	for _, c := range bt.Childs {
+		if c.Missing() {
+			return true
+		}
+	}
+
 	return false
 }
 
