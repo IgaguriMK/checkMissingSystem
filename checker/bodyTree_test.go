@@ -183,7 +183,6 @@ func TestIndexName(t *testing.T) {
 }
 
 //// Missing ////
-/*
 
 func TestMissing_None(t *testing.T) {
 	bodies := []string{
@@ -193,8 +192,8 @@ func TestMissing_None(t *testing.T) {
 	tree := BuildTree(bodies)[0]
 	actual := tree.Missing()
 
-	if len(actual) != 0 {
-		t.Errorf("Length of Missing() should be 0. actual: %v", actual)
+	if actual != false {
+		t.Errorf("Should not detect missing: %+v", tree)
 	}
 }
 
@@ -208,8 +207,8 @@ func TestMissing_Simple_Zero(t *testing.T) {
 	tree := BuildTree(bodies)[0]
 	actual := tree.Missing()
 
-	if len(actual) != 0 {
-		t.Errorf("Length of Missing() should be 0. actual: %v", actual)
+	if actual != false {
+		t.Errorf("Should not detect missing: %+v", tree)
 	}
 }
 
@@ -220,17 +219,11 @@ func TestMissing_Simple_Missing(t *testing.T) {
 		"3",
 	}
 
-	tree := BuildTree(bodies)[0]
+	trees := BuildTree(bodies)
+	tree := trees[0]
 	actual := tree.Missing()
 
-	if len(actual) != 1 {
-		t.Errorf("Length of Missing() should be 1. actual: %v", actual)
-	}
-
-	missing := actual[0]
-
-	if actual != "2" {
-		t.Errorf("Mismatch: actual %q, tobe %q", missing, "2")
+	if actual != true {
+		t.Errorf("Should detect missing: %+v\n    %+v", tree, trees)
 	}
 }
-*/

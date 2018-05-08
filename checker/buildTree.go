@@ -13,6 +13,17 @@ func BuildTree(bodyNames []string) []BodyTree {
 		selected := bodyNames[0]
 		bodyNames = bodyNames[1:]
 
+		if selected == "" {
+			res = append(
+				res,
+				BodyTree{
+					Name:   "",
+					Childs: BuildTree(bodyNames),
+				},
+			)
+			return res
+		}
+
 		var childNames []string
 		childNames, bodyNames = filterByPrefix(bodyNames, selected+" ")
 		childs := BuildTree(childNames)

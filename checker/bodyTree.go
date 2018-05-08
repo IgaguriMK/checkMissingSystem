@@ -2,6 +2,7 @@ package checker
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -29,6 +30,36 @@ func (bt BodyTree) getAllInternal(res []string, prefix string) []string {
 	}
 
 	return res
+}
+
+func (bt BodyTree) Missing() bool {
+	indexMap := make(map[string][]int)
+
+	for _, c := range bt.Childs {
+		pf, _ := c.Index()
+
+		if _, ok := indexMap[pf]; !ok {
+			indexMap[pf] = make([]int, 0)
+		}
+	}
+
+	for _, c := range bt.Childs {
+		pf, ci := c.Index()
+
+		indexMap[pf] = append(indexMap[pf], ci)
+	}
+
+	for _, cs := range indexMap {
+		sort.Ints(cs)
+
+		for j, i := range cs {
+			if i != j+1 {
+				return true
+			}
+		}
+	}
+
+	return false
 }
 
 func (bt BodyTree) Index() (string, int) {

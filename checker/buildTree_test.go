@@ -23,6 +23,36 @@ func TestBuildTree_NoName(t *testing.T) {
 	)
 }
 
+func TestBuildTree_NoNameWithPlanet(t *testing.T) {
+	tobe := []string{
+		"",
+		"1",
+		"2",
+	}
+
+	trees := BuildTree(tobe)
+
+	if len(trees) != 1 {
+		t.Fatalf("Mismatch trees length: actual %d, tobe 1", len(trees))
+	}
+
+	tree := trees[0]
+
+	if tree.Name != "" {
+		t.Errorf("Mismatch tree name: actual %q, tobe %q", tree.Name, "")
+	}
+
+	checkSlice(
+		t,
+		tree.GetAll(),
+		[]string{
+			"",
+			"1",
+			"2",
+		},
+	)
+}
+
 func TestBuildTree_Single(t *testing.T) {
 	tobe := []string{
 		"A",
