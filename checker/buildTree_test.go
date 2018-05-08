@@ -190,3 +190,20 @@ func TestBuildTree_Twin(t *testing.T) {
 		},
 	)
 }
+
+func TestBuildTree_Binary(t *testing.T) {
+	src := []string{
+		"A",
+		"A 1",
+		"AB 1",
+		"AB 2",
+		"B",
+		"B 1",
+	}
+
+	trees := BuildTree(src)
+
+	if len(trees) != 4 {
+		t.Fatalf("Mismatch trees length: actual %d, tobe 4\n    %+v", len(trees), trees)
+	}
+}
