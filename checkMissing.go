@@ -15,6 +15,8 @@ import (
 func main() {
 	var radius float64
 	flag.Float64Var(&radius, "r", 200, "Search radius")
+	var maxCount int
+	flag.IntVar(&maxCount, "n", 1000, "Limit of output")
 
 	flag.Parse()
 
@@ -27,6 +29,7 @@ func main() {
 
 	ch := load(inputName, radius)
 
+	count := 0
 	for sys := range ch {
 		bodyNames, autogen := checker.Suffixes(sys.Name, sys.Bodies)
 		if !autogen {
@@ -39,14 +42,20 @@ func main() {
 			fmt.Printf("%s:\n", sys.Name)
 
 			for _, n := range checker.GetAllTrees(trees) {
-				fmt.Printf("    %s %s\n", sys.Name, n)
+				fmt.Printf("    %s %s\n", "", n)
 			}
 
 			fmt.Println()
+
+			count++
+			if count == maxCount {
+				fmt.Println("Too many output")
+				return
+			}
 		}
 	}
 
-	fmt.Println("End")
+	fmt.Println("Total", count, "systems.")
 }
 
 type System struct {

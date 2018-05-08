@@ -68,8 +68,15 @@ func (bt BodyTree) Missing() bool {
 	for _, cs := range indexMap {
 		sort.Ints(cs)
 
+		offset := 1
+
 		for j, i := range cs {
-			if i != j+1 {
+			if i == 0 {
+				offset = 0
+				continue
+			}
+
+			if i != j+offset {
 				return true
 			}
 		}
