@@ -190,10 +190,10 @@ func TestMissing_None(t *testing.T) {
 	}
 
 	tree := BuildTree(bodies)[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != false {
-		t.Errorf("Should not detect missing: %+v", tree)
+	if found != false {
+		t.Errorf("Should not detect missing: %+v", actual)
 	}
 }
 
@@ -205,10 +205,10 @@ func TestMissing_Simple_Zero(t *testing.T) {
 	}
 
 	tree := BuildTree(bodies)[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != false {
-		t.Errorf("Should not detect missing: %+v", tree)
+	if found != false {
+		t.Errorf("should not detect missing: %+v", actual)
 	}
 }
 
@@ -221,10 +221,15 @@ func TestMissing_Simple_Missing(t *testing.T) {
 
 	trees := BuildTree(bodies)
 	tree := trees[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != true {
-		t.Errorf("Should detect missing: %+v\n    %+v", tree, trees)
+	if found != true {
+		t.Fatalf("Should detect missing: %+v", tree)
+	}
+
+	tobe := "2 ::Body"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
 
@@ -241,10 +246,10 @@ func TestMissing_Simple_CompleteSatellite(t *testing.T) {
 
 	trees := BuildTree(bodies)
 	tree := trees[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != false {
-		t.Errorf("Should not detect missing: %+v\n    %+v", tree, trees)
+	if found != false {
+		t.Errorf("should not detect missing: %+v", actual)
 	}
 }
 
@@ -255,16 +260,20 @@ func TestMissing_Simple_MissingSatellite(t *testing.T) {
 		"2",
 		"3",
 		"3 a",
-		"3 b",
 		"3 c",
 	}
 
 	trees := BuildTree(bodies)
 	tree := trees[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != false {
-		t.Errorf("Should detect missing: %+v\n    %+v", tree, trees)
+	if found != true {
+		t.Fatalf("Should detect missing: %+v", tree)
+	}
+
+	tobe := "3 b ::Body"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
 
@@ -285,10 +294,10 @@ func TestMissing_Long(t *testing.T) {
 
 	trees := BuildTree(bodies)
 	tree := trees[0]
-	actual := tree.Missing()
+	actual, found := tree.Missing()
 
-	if actual != false {
-		t.Errorf("Should not detect missing: %+v\n    %+v", tree, trees)
+	if found != false {
+		t.Errorf("should not detect missing: %+v", actual)
 	}
 }
 
@@ -321,10 +330,10 @@ func TestCheckMissing_Complete(t *testing.T) {
 	}
 
 	trees := BuildTree(src)
-	actual := CheckMissing(trees)
+	actual, found := CheckMissing(trees, "Foo")
 
-	if actual != false {
-		t.Errorf("Should not detect missing: %+v", trees)
+	if found != false {
+		t.Errorf("Should not detect missing: %+v", actual)
 	}
 }
 
@@ -354,10 +363,15 @@ func TestCheckMissing_MissingStar(t *testing.T) {
 	}
 
 	trees := BuildTree(src)
-	actual := CheckMissing(trees)
+	actual, found := CheckMissing(trees, "Foo")
 
-	if actual != true {
+	if found != true {
 		t.Errorf("Should detect missing: %+v", trees)
+	}
+
+	tobe := "Foo B ::BinaryStar"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
 
@@ -387,10 +401,15 @@ func TestCheckMissing_MissingPlanet(t *testing.T) {
 	}
 
 	trees := BuildTree(src)
-	actual := CheckMissing(trees)
+	actual, found := CheckMissing(trees, "Foo")
 
-	if actual != true {
-		t.Errorf("Should detect missing: %+v", trees)
+	if found != true {
+		t.Fatalf("Should detect missing: %+v", trees)
+	}
+
+	tobe := "Foo A 2 ::Body"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
 
@@ -420,10 +439,15 @@ func TestCheckMissing_MissingSatellite(t *testing.T) {
 	}
 
 	trees := BuildTree(src)
-	actual := CheckMissing(trees)
+	actual, found := CheckMissing(trees, "Foo")
 
-	if actual != true {
-		t.Errorf("Should detect missing: %+v", trees)
+	if found != true {
+		t.Fatalf("Should detect missing: %+v", trees)
+	}
+
+	tobe := "Foo B 1 b ::Body"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
 
@@ -454,9 +478,14 @@ func TestCheckMissing_MissingSatellite2(t *testing.T) {
 	}
 
 	trees := BuildTree(src)
-	actual := CheckMissing(trees)
+	actual, found := CheckMissing(trees, "Foo")
 
-	if actual != true {
-		t.Errorf("Should detect missing: %+v", trees)
+	if found != true {
+		t.Fatalf("Should detect missing: %+v", trees)
+	}
+
+	tobe := "Foo B 1 c a ::Body"
+	if actual != tobe {
+		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
 }
