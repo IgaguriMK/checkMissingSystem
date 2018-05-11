@@ -9,6 +9,7 @@ import (
 )
 
 type System struct {
+	ID     int
 	Name   string
 	Bodies []string
 }
@@ -45,6 +46,7 @@ func Load(inputName string, radius float64) chan System {
 			if id != lastid {
 				if isIn {
 					ch <- System{
+						ID:     lastid,
 						Name:   lastSys,
 						Bodies: bodies,
 					}
@@ -61,6 +63,7 @@ func Load(inputName string, radius float64) chan System {
 
 		if isIn {
 			ch <- System{
+				ID:     lastid,
 				Name:   lastSys,
 				Bodies: bodies,
 			}

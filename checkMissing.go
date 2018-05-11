@@ -35,7 +35,7 @@ func main() {
 		trees := checker.BuildTree(bodyNames)
 
 		if missingName, found := checker.CheckMissing(trees, sys.Name); found {
-			fmt.Printf("%s:\n", sys.Name)
+			fmt.Printf("%s (%d):\n", sys.Name, sys.ID)
 			fmt.Printf("    Missing %q\n", missingName)
 			fmt.Println("  in")
 
