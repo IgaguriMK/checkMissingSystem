@@ -18,12 +18,11 @@ func main() {
 
 	args := flag.Args()
 
-	inputName := "bubblebodies.txt"
-	if len(args) >= 1 {
-		inputName = args[0]
+	if len(args) == 0 {
+		args = append(args, "bubblebodies.txt")
 	}
 
-	ch := loader.Load(inputName, radius)
+	ch := loader.LoadAll(args, radius)
 
 	count := 0
 	for sys := range ch {
