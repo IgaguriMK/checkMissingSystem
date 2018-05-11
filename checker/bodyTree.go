@@ -61,7 +61,7 @@ func (bt BodyTree) Missing() (string, bool) {
 		}
 
 		if len(pf) == 2 { // like "A "
-			return joinName(bt.Name, pf+"::BinaryStar"), true
+			return joinName(bt.Name, pf+"::Parent"), true
 		}
 
 		if _, ok := indexMap[pf]; !ok {
@@ -90,7 +90,7 @@ func (bt BodyTree) Missing() (string, bool) {
 
 			if i > j+offset {
 				indexName := tier.IndexName(j + offset)
-				return joinName(bt.Name, fmt.Sprintf("%s ::Body", indexName)), true
+				return joinName(bt.Name, fmt.Sprintf("%s ::Child", indexName)), true
 			}
 		}
 	}
