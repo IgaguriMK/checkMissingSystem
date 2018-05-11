@@ -227,7 +227,7 @@ func TestMissing_Simple_Missing(t *testing.T) {
 		t.Fatalf("Should detect missing: %+v", tree)
 	}
 
-	tobe := "2 ::Body"
+	tobe := "2 ::Child"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
@@ -271,7 +271,7 @@ func TestMissing_Simple_MissingSatellite(t *testing.T) {
 		t.Fatalf("Should detect missing: %+v", tree)
 	}
 
-	tobe := "3 b ::Body"
+	tobe := "3 b ::Child"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
@@ -369,7 +369,7 @@ func TestCheckMissing_MissingStar(t *testing.T) {
 		t.Errorf("Should detect missing: %+v", trees)
 	}
 
-	tobe := "Foo B ::BinaryStar"
+	tobe := "Foo B ::Parent"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
@@ -407,7 +407,7 @@ func TestCheckMissing_MissingPlanet(t *testing.T) {
 		t.Fatalf("Should detect missing: %+v", trees)
 	}
 
-	tobe := "Foo A 2 ::Body"
+	tobe := "Foo A 2 ::Child"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
@@ -445,7 +445,7 @@ func TestCheckMissing_MissingSatellite(t *testing.T) {
 		t.Fatalf("Should detect missing: %+v", trees)
 	}
 
-	tobe := "Foo B 1 b ::Body"
+	tobe := "Foo B 1 b ::Child"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
@@ -484,7 +484,7 @@ func TestCheckMissing_MissingSatellite2(t *testing.T) {
 		t.Fatalf("Should detect missing: %+v", trees)
 	}
 
-	tobe := "Foo B 1 c a ::Body"
+	tobe := "Foo B 1 c a ::Child"
 	if actual != tobe {
 		t.Fatalf("Mismatch missing: actual %q, tobe %q", actual, tobe)
 	}
