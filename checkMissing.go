@@ -38,12 +38,14 @@ func main() {
 
 		trees := checker.BuildTree(bodyNames)
 
-		if checker.CheckMissing(trees) {
+		if missingName, found := checker.CheckMissing(trees, sys.Name); found {
 			fmt.Printf("%s:\n", sys.Name)
 
 			for _, n := range checker.GetAllTrees(trees) {
-				fmt.Printf("    %s %s\n", "", n)
+				fmt.Printf("    %s %s\n", sys.Name, n)
 			}
+
+			fmt.Printf("Missing: %q\n", missingName)
 
 			fmt.Println()
 

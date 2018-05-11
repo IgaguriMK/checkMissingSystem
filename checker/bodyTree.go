@@ -2,6 +2,7 @@ package checker
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strconv"
 	"strings"
@@ -44,14 +45,23 @@ func (bt BodyTree) getAllInternal(res []string, prefix string) []string {
 	return res
 }
 
-func (bt BodyTree) Missing() bool {
+func (bt BodyTree) Missing() (string, bool) {
 	indexMap := make(map[string][]int)
 
+	if len(bt.Childs) == 0 {
+		return "", false
+	}
+
 	for _, c := range bt.Childs {
-		pf, _ := c.Index()
+		pf, i := c.Index()
+
+		if i < 0 {
+			log.Printf("Index parse error: %q\n", bt.Name)
+			return "", false
+		}
 
 		if len(pf) == 2 { // like "A "
-			return true
+			return joinName(bt.Name, pf+"::BinaryStar"), true
 		}
 
 		if _, ok := indexMap[pf]; !ok {
@@ -65,6 +75,8 @@ func (bt BodyTree) Missing() bool {
 		indexMap[pf] = append(indexMap[pf], ci)
 	}
 
+	tier := bt.Childs[0].GetTier()
+
 	for _, cs := range indexMap {
 		sort.Ints(cs)
 
@@ -76,24 +88,33 @@ func (bt BodyTree) Missing() bool {
 				continue
 			}
 
-			if i != j+offset {
-				return true
+			if i > j+offset {
+				indexName := tier.IndexName(j + offset)
+				return joinName(bt.Name, fmt.Sprintf("%s ::Body", indexName)), true
 			}
 		}
 	}
 
 	for _, c := range bt.Childs {
-		if c.Missing() {
-			return true
+		if name, found := c.Missing(); found {
+			return joinName(bt.Name, name), true
 		}
 	}
 
-	return false
+	return "", false
 }
 
-func CheckMissing(bts []BodyTree) bool {
+func joinName(na, nc string) string {
+	if na == "" {
+		return nc
+	} else {
+		return na + " " + nc
+	}
+}
+
+func CheckMissing(bts []BodyTree, systemName string) (string, bool) {
 	tempBt := BodyTree{
-		Name:   "SYSTEM",
+		Name:   systemName,
 		Childs: bts,
 	}
 
@@ -104,7 +125,7 @@ func (bt BodyTree) Index() (string, int) {
 	n := bt.Name
 
 	if n == "" {
-		return "", 0
+		return "", 1
 	}
 
 	ns := strings.Split(n, " ")
@@ -123,6 +144,10 @@ func (bt BodyTree) Index() (string, int) {
 		return prefix, i
 	}
 
+	if len(indexStr) > 1 {
+		return "", 1
+	}
+
 	r := indexStr[0]
 	switch {
 	case 'A' <= r && r <= 'Z':
@@ -131,7 +156,7 @@ func (bt BodyTree) Index() (string, int) {
 		return prefix, 1 + int(r-'a')
 	}
 
-	panic(fmt.Sprintf("Suould not reach: BodyTree#Index(), bt = %+v", bt))
+	return n, -1
 }
 
 func (bt BodyTree) GetTier() Tier {
@@ -192,12 +217,12 @@ func (t Tier) IndexName(index int) string {
 
 	switch t {
 	case BinaryStar:
-		r := 'A' + rune(index) - 1
+		r := 'A' + rune(index-1)
 		return string([]rune{r})
 	case Planet:
 		return strconv.Itoa(index)
 	case Satellite:
-		r := 'a' + rune(index) - 1
+		r := 'a' + rune(index-1)
 		return string([]rune{r})
 	}
 
@@ -206,7 +231,7 @@ func (t Tier) IndexName(index int) string {
 
 func (bt BodyTree) String() string {
 	if len(bt.Childs) == 0 {
-		return fmt.Sprintf("%q{}", bt.Name)
+		return fmt.Sprintf("%q", bt.Name)
 	}
 
 	cs := make([]string, 0, len(bt.Childs))
